@@ -10,7 +10,7 @@
 
 ## Fonts
 
-Courier Prime and Patrick Hand are provided under the SIL Open Font License. Their licence files are included in assets/fonts/.
+Courier Prime and Patrick Hand are provided under the SIL Open Font License. Their licence files are included in assets/fonts/. The Chinese checklist uses a renamed, web-only subset of LXGW WenKai, under the SIL Open Font License: https://github.com/lxgw/LxgwWenKai.
 
 ## Artwork
 

@@ -39,7 +39,7 @@ root.URStartScreen=function({ready,onBegin}){
  async function prepare(){
   if(loading)return;loading=true;button.disabled=true;
   try{
-   const frameReady=Promise.all([...images.map(load),document.fonts.ready]).then(async()=>{fitRows();await Promise.all([...overlay.querySelectorAll('.startStrip img')].map(img=>img.decode()));overlay.dataset.frameReady='true'});
+   const frameReady=Promise.all([...images.map(load),document.fonts.ready,document.fonts.load('24px "UR Checklist Han"','核对清单'),document.fonts.load('24px "Patrick Hand"') ]).then(async()=>{fitRows();await Promise.all([...overlay.querySelectorAll('.startStrip img')].map(img=>img.decode()));overlay.dataset.frameReady='true'});
    await Promise.all([ready,frameReady,...visuals.map(load)]);
    prepared=true;status.textContent='';button.textContent=t('Click to begin');overlay.dataset.ready='true';overlay.setAttribute('aria-busy','false');button.disabled=false;
    if(document.documentElement.classList.contains('returningToStart'))overlay.addEventListener('animationend',()=>document.documentElement.classList.remove('returningToStart'),{once:true});

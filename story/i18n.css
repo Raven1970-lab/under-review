@@ -6,11 +6,19 @@
 html[lang=zh-Hans] #storyLayer,html[lang=zh-Hans] #storyLayer button,html[lang=zh-Hans] #actionHint,html[lang=zh-Hans] #startGame,html[lang=zh-Hans] #startStatus{font-family:'PingFang SC','Microsoft YaHei',sans-serif}
 html[lang=zh-Hans] #visitorSpeech{line-height:1.65}
 html[lang=zh-Hans] #clerkSpeech{line-height:1.7}
-html[lang=zh-Hans] #taskLabels .taskLabel text{font-family:'Kaiti SC','STKaiti','KaiTi',serif;font-size:24px}
-html[lang=zh-Hans] .paperHeading{font-family:'Kaiti SC','STKaiti','KaiTi',serif}
+html[lang=zh-Hans] #taskLabels .taskLabel text{font-family:'UR Checklist Han',cursive;font-size:24px}
+html[lang=zh-Hans] .paperHeading{font-family:'UR Checklist Han',cursive}
 html[lang=zh-Hans] #archiveDialog{font-family:'Songti SC','SimSun',serif}
 html[lang=zh-Hans] .archiveTitleLine{letter-spacing:.03em}
 html[lang=zh-Hans] .archiveBody{line-height:1.9}
 html[lang=zh-Hans] #archiveTab span{letter-spacing:.25em;font-size:15px}
 #actionHint{max-width:68%}
 @media(max-width:600px){.languageSwitch{top:10px;left:10px}.languageSwitch button{font-size:11px;padding:4px 5px}#actionHint{top:46px;max-width:90%}}
+
+@font-face{font-family:'UR Checklist Han';src:url('../assets/fonts/URChecklistHan-Regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+#checkmarks .paperHeading,#checkmarks .paperDate{font-family:'Patrick Hand',cursive;font-weight:400;letter-spacing:.3px}
+html[lang=zh-Hans] #checkmarks .paperHeading,html[lang=zh-Hans] #checkmarks .paperDate{font-family:'UR Checklist Han',cursive;font-weight:400}
+#visitorSpeech strong{font-weight:700}
+/* Leave breathing room above the persistent action guidance. */
+#actionHint{top:max(28px,calc(env(safe-area-inset-top) + 18px));font-size:clamp(14px,1.15vw,18px);line-height:1.5}
+@media(max-width:800px){#actionHint{top:max(54px,calc(env(safe-area-inset-top) + 44px));font-size:14px;max-width:88%}}

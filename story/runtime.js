@@ -65,9 +65,15 @@ function showSpeechPage(el){
  el.setAttribute('aria-label',t('Continue: ')+(speechPages[speechPage]||''));
  if(!storyTime.paused)voice.sync(engine.state.line,speechPage,speechPages);
 }
+function tutorialCopy(el,line){
+ const phrases=window.URTutorialEmphasis?.[line.id]?.[locale.language]||[];
+ el.replaceChildren();let cursor=0;
+ for(const phrase of phrases){const start=line.text.indexOf(phrase,cursor);if(start<0)continue;el.append(document.createTextNode(line.text.slice(cursor,start)));const strong=document.createElement('strong');strong.textContent=phrase;el.append(strong);cursor=start+phrase.length}
+ el.append(document.createTextNode(line.text.slice(cursor)));
+}
 function layoutSpeech(el,line){
  if(resumeSpeech?.line===line&&resumeSpeech.pages.length){speechLine=line;speechPages=resumeSpeech.pages;speechPage=resumeSpeech.page;el.replaceChildren();const copy=document.createElement('span');copy.className='speechCopy';el.append(copy);showSpeechPage(el);resumeSpeech=null;return}
- if(['boss','clerk','thought'].includes(line.speaker)){el.textContent=line.text;speechLine=line;speechPages=[];speechPage=0;return}
+ if(['boss','clerk','thought'].includes(line.speaker)){if(line.speaker==='boss')tutorialCopy(el,line);else el.textContent=line.text;speechLine=line;speechPages=[];speechPage=0;return}
  if(speechLine===line&&el.querySelector('.speechCopy'))return;
  speechLine=line;speechPage=0;el.replaceChildren();
  const copy=document.createElement('span');copy.className='speechCopy';el.append(copy);
@@ -115,7 +121,7 @@ function render(s){
   boxes[i].setAttribute('aria-checked',String(s.checks[i]));boxes[i].querySelector('.checkTick').style.display=s.results[i]==='pass'?'':'none';boxes[i].querySelector('.checkCross').style.display=s.results[i]==='fail'?'':'none';boxes[i].setAttribute('aria-disabled',String(!engine.canCheck(i)));boxes[i].setAttribute('tabindex',engine.canCheck(i)?'0':'-1');boxes[i].classList.toggle('ready',engine.canCheck(i));
 
  }
- q('#computer').disabled=!engine.canOpenInspection();q('#computer .beacon').hidden=q('#computer').disabled;
+ q('#computer').disabled=!engine.canOpenInspection();q('#computer .beacon').hidden=q('#computer').disabled||engine.photoReady();
  if(s.inspectionOpen&&!detail.open)detail.showModal();if(!s.inspectionOpen&&detail.open)detail.close();
  const parent=s.inspectionOpen?detail:document.body;if(layer.parentNode!==parent)parent.append(layer);layer.classList.toggle('inInspection',s.inspectionOpen);
  const newLineId=s.line?.id||null;if(newLineId!==lastDialogueId){stopAudio(sip);lastDialogueId=newLineId}
