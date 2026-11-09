@@ -16,6 +16,15 @@ class DialogueVoice {
    if(pending&&pending.serial===this.serial)this.play(pending.line,pending.serial);
   }catch(error){this.error=String(error)}
  }
+ async prepare(){
+  // Decode while the title is visible. Audio only resumes on the begin gesture.
+  if(!this.context)this.context=this.createContext();
+  const ids=Object.keys(this.manifest);
+  let next=0;
+  await Promise.all(Array.from({length:Math.min(6,ids.length)},async()=>{
+   while(next<ids.length)await this.buffer(ids[next++]);
+  }));
+ }
  buffer(id){
   if(!this.cache.has(id))this.cache.set(id,this.fetch(this.manifest[id]).then(r=>{
    if(!r.ok)throw Error('Voice asset '+r.status);return r.arrayBuffer();
@@ -32,7 +41,7 @@ class DialogueVoice {
  sync(line,page=0,pages=null){
   const key=pages?.length?pages.join('|')+':'+page:'whole';
   if(line===this.line&&this.pageKey===key)return;
-  this.pageKey=key;const total=pages?.reduce((n,t)=>n+t.length,0)||0;this.segment=total?{start:pages.slice(0,page).reduce((n,t)=>n+t.length,0)/total,end:pages.slice(0,page+1).reduce((n,t)=>n+t.length,0)/total}:null;
+  this.pageKey=key;
   this.line=line;this.stop();
   if(!line||line.speaker==='thought'||!this.manifest[line.id]||this.muted||this.hidden)return;
   const serial=this.serial;
@@ -48,7 +57,9 @@ class DialogueVoice {
    const t=this.context.currentTime+.025;gain.gain.setValueAtTime(0,t);gain.gain.linearRampToValueAtTime(this.volume,t+.012);
    this.current={source,gain};this.starts++;this.lastStarted=line.id;
    source.onended=()=>{source.disconnect();gain.disconnect();if(this.current?.source===source)this.current=null};
-   const segment=this.segment;if(segment&&Number.isFinite(buffer.duration)){const bounds=this.bounds[line.id]||[0,buffer.duration],start=Math.max(0,bounds[0]),end=Math.min(buffer.duration,bounds[1]),span=end-start;const offset=start+span*segment.start,duration=span*(segment.end-segment.start);gain.gain.setValueAtTime(this.volume,t+Math.max(.012,duration-.02));gain.gain.linearRampToValueAtTime(0,t+duration);source.start(t,offset,duration)}else source.start(t);
+   // These are nonverbal voice gestures, not spoken text: each bubble gets
+   // a complete phrase, including its natural attack, pauses and ending.
+   source.start(t);
   }catch(error){if(serial===this.serial)this.error=String(error)}
  }
  setMuted(value){this.muted=Boolean(value);if(this.muted)this.stop()}

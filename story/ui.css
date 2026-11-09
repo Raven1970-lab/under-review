@@ -124,3 +124,5 @@ body[data-story-phase^="idle-"] #visitorSpeech::after{display:none}
 #teaSurface{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 #teaLiquid{transition:cy .8s ease,rx .8s ease,ry .8s ease}
 @media(prefers-reduced-motion:reduce){#teaLiquid{transition:none}}
+
+#deskDrink img[hidden],#teaSurface[hidden]{display:none}

@@ -5,7 +5,7 @@
 }
 #startOverlay::before{content:'';position:absolute;inset:0;z-index:-1;opacity:.12;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23a6a28d' filter='url(%23grain)' opacity='.5' d='M0 0h180v180H0z'/%3E%3C/svg%3E")}
 .startFrame{position:absolute;inset:var(--frame-inset);border:1px solid #8b886545;pointer-events:none}
-.startStrip{position:absolute;pointer-events:none;height:var(--edge-depth);display:flex;align-items:flex-end;justify-content:space-between;filter:brightness(1.22);opacity:.9}
+.startStrip{position:absolute;pointer-events:none;height:var(--edge-depth);display:flex;align-items:flex-end;justify-content:space-between;filter:brightness(1.22);opacity:0}
 .startStripTile{position:relative;display:block;flex:none;overflow:hidden}
 .startStripTile img{position:absolute;max-width:none;display:block}
 /* Clockwise corner ownership: one row reaches each corner, the next starts beyond it. */
@@ -32,3 +32,6 @@ html.returningToStart #startOverlay{opacity:0}
 html.returningToStart #startOverlay[data-ready=true]{animation:returnToTitle .85s ease forwards}
 @keyframes returnToTitle{from{opacity:0}to{opacity:1}}
 @media(prefers-reduced-motion:reduce){html.returningToStart #startOverlay[data-ready=true]{animation-duration:.15s}}
+
+/* Reveal the complete four-sided frame together, never partial image downloads. */
+#startOverlay[data-frame-ready=true] .startStrip{opacity:.9}

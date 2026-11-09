@@ -7,7 +7,7 @@ const strips=[
  ['right','procedure',[19,173,2156,651]]
 ];
 root.URStartScreen=function({ready,onBegin}){
- const overlay=document.createElement('section');overlay.id='startOverlay';overlay.setAttribute('aria-label','Under Review');overlay.setAttribute('role','dialog');overlay.setAttribute('aria-modal','true');
+ const overlay=document.querySelector('#startOverlay');overlay.setAttribute('aria-label','Under Review');overlay.setAttribute('role','dialog');overlay.setAttribute('aria-modal','true');
  const frame=document.createElement('div');frame.className='startFrame';frame.setAttribute('aria-hidden','true');overlay.append(frame);
  const images=[];
  const edgeRows=[];
@@ -29,21 +29,23 @@ root.URStartScreen=function({ready,onBegin}){
   }
  }
  const resize=new ResizeObserver(fitRows);resize.observe(overlay);fitRows();
- const centre=document.createElement('div');centre.className='startCentre';
- const title=document.createElement('h1');title.textContent='UNDER REVIEW';
- const button=document.createElement('button');button.id='startGame';button.textContent='Click to begin';button.disabled=true;
- const status=document.createElement('p');status.id='startStatus';status.setAttribute('role','status');status.textContent='Preparing the office…';
- centre.append(title,button,status);overlay.append(centre);document.body.append(overlay);
+ const button=overlay.querySelector('#startGame'),status=overlay.querySelector('#startStatus');
  const stage=document.querySelector('#stage');stage.inert=true;
- function load(src){return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve();img.onerror=()=>reject(Error(src));img.src=src})}
- let prepared=false,loading=false;
+ const cache=new Map();let complete=0;
+ const visuals=[...new Set([...(root.URVisualPreload||[]),...images])];
+ function load(src){if(!cache.has(src))cache.set(src,new Promise((resolve,reject)=>{const img=new Image();img.onload=async()=>{try{await img.decode();complete++;status.textContent='Preparing the office… '+Math.round(complete/visuals.length*100)+'%';resolve()}catch(error){reject(error)}};img.onerror=()=>reject(Error(src));img.src=src}).catch(error=>{cache.delete(src);throw error}));return cache.get(src)}
+ let prepared=false,loading=false,failed=false;
  async function prepare(){
   if(loading)return;loading=true;button.disabled=true;
-  try{await Promise.all([ready,document.fonts.ready,...images.map(load)]);prepared=true;status.textContent='';overlay.dataset.ready='true';button.disabled=false;if(document.documentElement.classList.contains('returningToStart')){overlay.addEventListener('animationend',()=>document.documentElement.classList.remove('returningToStart'),{once:true})}}
-  catch{document.documentElement.classList.remove('returningToStart');status.textContent='Unable to load the artwork. Click to retry.';button.disabled=false;}
+  try{
+   const frameReady=Promise.all([...images.map(load),document.fonts.ready]).then(async()=>{fitRows();await Promise.all([...overlay.querySelectorAll('.startStrip img')].map(img=>img.decode()));overlay.dataset.frameReady='true'});
+   await Promise.all([ready,frameReady,...visuals.map(load)]);
+   prepared=true;status.textContent='';button.textContent='Click to begin';overlay.dataset.ready='true';overlay.setAttribute('aria-busy','false');button.disabled=false;
+   if(document.documentElement.classList.contains('returningToStart'))overlay.addEventListener('animationend',()=>document.documentElement.classList.remove('returningToStart'),{once:true});
+  }catch{failed=true;document.documentElement.classList.remove('returningToStart');overlay.style.opacity='1';status.textContent='Unable to load the artwork. Click to retry.';button.textContent='Retry';button.disabled=false}
   finally{loading=false}
  }
- button.onclick=async()=>{if(button.disabled)return;if(!prepared){prepare();return}button.disabled=true;stage.inert=false;try{await onBegin();resize.disconnect();overlay.remove()}catch{stage.inert=true;button.disabled=false;status.textContent='Unable to start. Click to retry.'}};
+ button.onclick=async()=>{if(button.disabled)return;if(failed){location.reload();return}if(!prepared)return;button.disabled=true;try{await onBegin();resize.disconnect();stage.inert=false;document.documentElement.classList.remove('booting');overlay.remove()}catch{stage.inert=true;button.disabled=false;status.textContent='Unable to start. Click to retry.'}};
  prepare();return overlay;
 };
 })(window);
