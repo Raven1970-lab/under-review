@@ -22,3 +22,5 @@ html[lang=zh-Hans] #checkmarks .paperHeading,html[lang=zh-Hans] #checkmarks .pap
 /* Leave breathing room above the persistent action guidance. */
 #actionHint{top:max(28px,calc(env(safe-area-inset-top) + 18px));font-size:clamp(14px,1.15vw,18px);line-height:1.5}
 @media(max-width:800px){#actionHint{top:max(54px,calc(env(safe-area-inset-top) + 44px));font-size:14px;max-width:88%}}
+/* Optical centring compensates for the trailing full-width Chinese punctuation. */
+html[lang=zh-Hans] #clerkSpeech{transform:translateX(calc(-50% + .25em));text-wrap:balance}
