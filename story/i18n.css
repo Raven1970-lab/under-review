@@ -1,0 +1,16 @@
+.languageSwitch{position:fixed;top:14px;left:20px;z-index:1250;display:flex;gap:4px;padding:3px;background:#26382be8;border:1px solid #bcac7970;border-radius:2px;pointer-events:auto}
+.languageSwitch button{background:none;border:0;padding:5px 8px;color:#c5bda6;font:13px/1.2 'Courier Prime','PingFang SC',sans-serif;cursor:pointer}
+.languageSwitch button[aria-pressed=true]{color:#ffdf89;border-bottom:1px solid #e0bb60}
+.languageSwitch button:focus-visible{outline:1px solid #ffdf89}
+#archiveDialog .languageSwitch{position:static;margin-left:auto;margin-right:14px}
+html[lang=zh-Hans] #storyLayer,html[lang=zh-Hans] #storyLayer button,html[lang=zh-Hans] #actionHint,html[lang=zh-Hans] #startGame,html[lang=zh-Hans] #startStatus{font-family:'PingFang SC','Microsoft YaHei',sans-serif}
+html[lang=zh-Hans] #visitorSpeech{line-height:1.65}
+html[lang=zh-Hans] #clerkSpeech{line-height:1.7}
+html[lang=zh-Hans] #taskLabels .taskLabel text{font-family:'Kaiti SC','STKaiti','KaiTi',serif;font-size:24px}
+html[lang=zh-Hans] .paperHeading{font-family:'Kaiti SC','STKaiti','KaiTi',serif}
+html[lang=zh-Hans] #archiveDialog{font-family:'Songti SC','SimSun',serif}
+html[lang=zh-Hans] .archiveTitleLine{letter-spacing:.03em}
+html[lang=zh-Hans] .archiveBody{line-height:1.9}
+html[lang=zh-Hans] #archiveTab span{letter-spacing:.25em;font-size:15px}
+#actionHint{max-width:68%}
+@media(max-width:600px){.languageSwitch{top:10px;left:10px}.languageSwitch button{font-size:11px;padding:4px 5px}#actionHint{top:46px;max-width:90%}}

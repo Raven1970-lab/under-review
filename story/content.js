@@ -18,26 +18,26 @@ const lines={
  'idle.boss.resume':['boss','Let’s continue. There are applicants waiting.'],
  'idle.uncle.phone':['uncle','Your clerk has kept me waiting. Come down here and sort this out.'],
  'idle.boss.order':['boss','He’s fine. I’ve checked everything. Approve his application.'],
- 'clerk.new':['clerk','I am.'],
- 'clerk.notNew':['clerk','I’m not.'],
+ 'clerk.new':['clerk',"I’m new here."],
+ 'clerk.notNew':['clerk',"I’m not new here."],
  "return.confirmed":["clerk", "Miss, your photograph is fine now."],
  "alex.departments":["clerk", "To check the queue for mental health assistance, you should go to the {mentalOffice}. For housing, you should check with the {housingOffice}. I’m unable to help you any further here. I’m sorry."],
  "uncle.embarrassed":["clerk", "Oh, really? Oh, Uncle, I couldn’t possibly trouble you…"],
  'lunch.thought':['thought','(Time for lunch.)'],
  "boss.hello":["boss", "You're the new clerk starting today, aren't you?"],
  'boss.skip':['boss','All right. You know the routine. We open at eight.'],
- "tutorial.board":["boss", "Work down the checklist. Select the student number to uncover the matching record on the computer."],
+ "tutorial.board":["boss", "Work down the checklist. Select the first glowing task to uncover the matching identity information on the computer."],
  "tutorial.compareStudent":["boss", "The applicant answers: {practiceStudentNumber}. Compare that answer with the uncovered number on the screen. They match. Mark the first box."],
  "tutorial.passport":["boss", "Now select the passport task. Ask for that number next; leave the remaining task until this one is checked."],
  "tutorial.comparePassport":["boss", "The applicant answers: {practicePassport}. Check it against the newly uncovered record. It matches too. Mark the second box."],
- "tutorial.identity":["boss", "Finally, confirm who is applying. Select the identity task. This is when you examine their photograph."],
+ "tutorial.identity":["boss", "Sometimes you need to verify the applicant’s identity. Select the identity task. This is when you need to examine their photograph."],
  "tutorial.computer":["boss", "Select the computer to inspect the photograph. The uncovered information is evidence to compare with the applicant’s answers."],
  "tutorial.ruler":["boss", "Measure the head with the ruler. The two green guides show an acceptable photograph here. A photograph that is too small has red head guides and a green minimum-size guide below."],
  "tutorial.lens":["boss", "Use the magnifier to inspect the face and the lower size guide. Check that the face and the size guide match."],
  "tutorial.close":["boss", "The photograph has been inspected and measured. Click the dark area outside the computer to return to the desk."],
  "tutorial.confirm":["boss", "The photograph meets the requirement. Confirm the third item on your checklist."],
  "tutorial.buttons":["boss", "Only after checking all three items do you process the application. Red returns it, green approves it, yellow leaves it pending. Select yellow. When you speak, click anywhere to continue."],
- "tutorial.done":["boss", "That’s the procedure. The first applicant is waiting."],
+ "tutorial.done":["boss", "That’s the procedure. The first applicant is waiting for you. Good luck."],
  "student.intro1":["student", "Hello. My name is {studentName}, but my preferred name is {preferredName}."],
  "student.intro2":["student", "I’m an international student, and I’m planning a holiday on {island}. I registered my details online a while ago. Today I received a notice asking me to come in to see whether my application has been approved, or if there are any problems."],
  "student.q1":["clerk", "Could you tell me your student ID number, please?"],
@@ -128,6 +128,7 @@ const visits=[
   {label:'Confirm applicant identity',value:'Updated identity photograph',dialogue:[],photo:'corrected'}]}
 ];
 function text(value){return String(value).replace(/\{(\w+)\}/g,(_,key)=>String(provisional[key]??provisional.photo[key]??'{'+key+'}'))}
-const data={practiceRecord,tutorialSteps,locale:'en',provisional,lines,visits,text,approvalTimeoutMs:4200,lunchBlackoutMs:4400,lunchPaperMs:1600,lunchClearMs:450,endingText:''};
+function lineText(id,visitIndex){return root.URI18n?root.URI18n.line(id,visitIndex):text(lines[id][1])}
+const data={lineText,practiceRecord,tutorialSteps,locale:'en',provisional,lines,visits,text,approvalTimeoutMs:4200,lunchBlackoutMs:4400,lunchPaperMs:1600,lunchClearMs:450,endingText:''};
 if(typeof module!=='undefined')module.exports=data;else root.URStoryContent=data;
 })(typeof window!=='undefined'?window:globalThis);

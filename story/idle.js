@@ -5,7 +5,7 @@ const defaults={thresholdMs:180000,bossMs:90000,normalMs:180000,mildMs:60000,str
 class IdleDirector{
  constructor(engine,config={}){this.e=engine;this.config={...defaults,...config};this.auto=false;this.silence=0;this.steps=null;this.index=0;this.elapsed=0;this.completed=0;this.saved=null;this.cue=0;this.recovering=false;this.approved=new Set();this.disposed=false}
  eligible(){return ['dialogue','choice','tutorial','tasks','review','decision'].includes(this.e.state.phase)}
- line(id){const [speaker,text]=this.e.content.lines[id];return {id,speaker,text:this.e.content.text(text)}}
+ line(id){const [speaker,text]=this.e.content.lines[id];return {id,speaker,text:this.e.content.lineText?this.e.content.lineText(id,this.e.state.visitIndex):this.e.content.text(text)}}
  activity(){
   if(this.disposed||['ending','error','boot'].includes(this.e.state.phase))return false;
   if(this.recovering)return false;
