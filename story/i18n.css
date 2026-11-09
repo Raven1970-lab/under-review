@@ -11,7 +11,6 @@ html[lang=zh-Hans] .paperHeading{font-family:'UR Checklist Han',cursive}
 html[lang=zh-Hans] #archiveDialog{font-family:'Songti SC','SimSun',serif}
 html[lang=zh-Hans] .archiveTitleLine{letter-spacing:.03em}
 html[lang=zh-Hans] .archiveBody{line-height:1.9}
-html[lang=zh-Hans] #archiveTab span{letter-spacing:.25em;font-size:15px}
 #actionHint{max-width:68%}
 @media(max-width:600px){.languageSwitch{top:10px;left:10px}.languageSwitch button{font-size:11px;padding:4px 5px}#actionHint{top:46px;max-width:90%}}
 

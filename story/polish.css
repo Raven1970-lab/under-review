@@ -1,0 +1,31 @@
+/* Visual polish layer — loaded last. Type, guidance, language switch, start screen. */
+:root{--zh-serif:'Noto Serif SC','Songti SC','Source Han Serif SC','STSong','SimSun',serif;--display:'Special Elite','Courier Prime',monospace}
+
+/* Chinese: a book serif instead of the system sans, to sit with the paper-cut scene. */
+html[lang=zh-Hans] #storyLayer,html[lang=zh-Hans] #storyLayer button,html[lang=zh-Hans] #actionHint,html[lang=zh-Hans] #startGame,html[lang=zh-Hans] #startStatus{font-family:'Courier Prime',var(--zh-serif)}
+html[lang=zh-Hans] #visitorSpeech,html[lang=zh-Hans] #clerkSpeech{font-weight:500;letter-spacing:.02em}
+html[lang=zh-Hans] #archiveDialog{font-family:'Courier Prime',var(--zh-serif)}
+html[lang=zh-Hans] .languageSwitch button{font-family:'Courier Prime',var(--zh-serif)}
+
+/* Speech: balanced lines (no lone "吧？"). */
+#visitorSpeech{text-wrap:pretty}
+html[lang=zh-Hans] #visitorSpeech{text-wrap:balance}
+
+
+/* Language switch: a paper label; the active language is inked in. */
+.languageSwitch{gap:0;padding:2px;background:#dccdaa;border:0;border-radius:1px;box-shadow:0 2px 0 #a89670,0 4px 8px #0b120e55}
+.languageSwitch button{color:#6a6150;padding:4px 9px;font-weight:700;border-bottom:0}
+.languageSwitch button[aria-pressed=true]{color:#f1e6cc;background:#3d4a3b;border-bottom:0;border-radius:1px}
+.languageSwitch button:not([aria-pressed=true]):hover{color:#2f3228}
+.languageSwitch button:focus-visible{outline:2px solid #3d4a3b;outline-offset:1px}
+#archiveDialog .languageSwitch{box-shadow:none;background:#cfc09c}
+
+/* Start screen: original button; title in a typewriter face; richer paper-grain backdrop. */
+.startCentre h1{font-family:var(--display);letter-spacing:.16em;text-shadow:0 2px 0 #1c241d}
+#startOverlay::before{opacity:.2}
+#startOverlay::after{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background:repeating-linear-gradient(93deg,#e6dac006 0 1px,transparent 1px 7px),repeating-linear-gradient(2deg,#0000000a 0 1px,transparent 1px 5px),radial-gradient(ellipse at 50% 46%,transparent 40%,#141a1580 100%)}
+
+/* Desk monitor: a faint CRT flicker; content is ornamental at this size. */
+#smallScreen{animation:crtFlicker 5s steps(1) infinite}
+@keyframes crtFlicker{0%,100%{opacity:1}47%{opacity:.93}48%{opacity:1}83%{opacity:.96}84%{opacity:1}}
+@media(prefers-reduced-motion:reduce){#smallScreen{animation:none}#startGame{transition:none}}
