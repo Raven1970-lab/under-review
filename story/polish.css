@@ -29,3 +29,6 @@ html[lang=zh-Hans] #visitorSpeech{text-wrap:balance}
 #smallScreen{animation:crtFlicker 5s steps(1) infinite}
 @keyframes crtFlicker{0%,100%{opacity:1}47%{opacity:.93}48%{opacity:1}83%{opacity:.96}84%{opacity:1}}
 @media(prefers-reduced-motion:reduce){#smallScreen{animation:none}#startGame{transition:none}}
+
+/* Bottom subtitles sit on the visitor window's axis (set by subtitle-axis.js). */
+#clerkSpeech{left:var(--dialogue-axis,50%);max-width:min(1050px,calc(2*min(var(--dialogue-axis,50vw),100vw - var(--dialogue-axis,50vw)) - 24px))}
