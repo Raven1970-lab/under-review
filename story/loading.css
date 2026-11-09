@@ -1,0 +1,34 @@
+#startOverlay{
+ --edge-depth:clamp(70px,19vmin,190px);--frame-inset:clamp(8px,1.4vmin,18px);
+ position:fixed;inset:0;z-index:1200;display:grid;place-items:center;isolation:isolate;overflow:hidden;
+ background:radial-gradient(ellipse at 48% 43%,#454b3e 0%,#383f34 52%,#2c342b 100%);color:#e6dac0;
+}
+#startOverlay::before{content:'';position:absolute;inset:0;z-index:-1;opacity:.12;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23a6a28d' filter='url(%23grain)' opacity='.5' d='M0 0h180v180H0z'/%3E%3C/svg%3E")}
+.startFrame{position:absolute;inset:var(--frame-inset);border:1px solid #8b886545;pointer-events:none}
+.startStrip{position:absolute;pointer-events:none;height:var(--edge-depth);display:flex;align-items:flex-end;justify-content:space-between;filter:brightness(1.22);opacity:.9}
+.startStripTile{position:relative;display:block;flex:none;overflow:hidden}
+.startStripTile img{position:absolute;max-width:none;display:block}
+/* Clockwise corner ownership: one row reaches each corner, the next starts beyond it. */
+.startStrip.bottom{left:var(--frame-inset);right:calc(var(--frame-inset) + var(--edge-depth));bottom:var(--frame-inset)}
+.startStrip.top{left:calc(var(--frame-inset) + var(--edge-depth));right:var(--frame-inset);top:var(--frame-inset);transform:rotate(180deg)}
+.startStrip.left,.startStrip.right{width:calc(100dvh - 2*var(--frame-inset) - var(--edge-depth));transform-origin:center}
+.startStrip.left{left:calc(var(--frame-inset) + var(--edge-depth)/2);top:calc(50% - var(--edge-depth)/2);transform:translate(-50%,-50%) rotate(90deg)}
+.startStrip.right{right:calc(var(--frame-inset) + var(--edge-depth)/2);top:calc(50% + var(--edge-depth)/2);transform:translate(50%,-50%) rotate(-90deg)}
+.startCentre{position:relative;z-index:2;text-align:center;max-width:calc(100vw - 2*var(--edge-depth) - 24px)}
+.startCentre h1{font:400 clamp(17px,2.7vw,36px)/1.2 'Courier Prime',monospace;letter-spacing:.14em;margin:0 0 32px;color:#d9cfb6}
+#startGame{display:inline-block;color:#f1e6cc;background:#222c2373;border:1px solid #c0b28b88;border-radius:1px;padding:14px 25px;font:400 clamp(13px,1.35vw,18px)/1.2 'Courier Prime',monospace;white-space:nowrap;box-shadow:0 2px 0 #131c1855;transition:background .18s,border-color .18s,transform .18s}
+#startGame:hover:not(:disabled){background:#4b5140;border-color:#ded0a6;transform:translateY(-1px)}
+#startGame:active:not(:disabled){transform:translateY(1px);box-shadow:none}
+#startGame:disabled{opacity:.4;cursor:wait}
+#startGame:focus-visible{outline:2px solid #ead8a8;outline-offset:5px}
+#startStatus{height:1.4em;margin:17px 0 0;font:11px/1.4 'Courier Prime',monospace;letter-spacing:.04em;color:#d0c8ae}
+@media(max-width:600px){#startOverlay{--edge-depth:18vmin}.startCentre h1{font-size:17px;letter-spacing:.09em;margin-bottom:22px}#startGame{padding:12px 15px}.startCentre{max-width:58vw}}
+@media(prefers-reduced-motion:reduce){#startGame{transition:none}}
+
+/* Keep the scene covered while a completed run returns to the title screen. */
+html.returningToStart,html.returningToStart body{background:#000}
+html.returningToStart body>:not(#startOverlay){visibility:hidden}
+html.returningToStart #startOverlay{opacity:0}
+html.returningToStart #startOverlay[data-ready=true]{animation:returnToTitle .85s ease forwards}
+@keyframes returnToTitle{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){html.returningToStart #startOverlay[data-ready=true]{animation-duration:.15s}}

@@ -1,0 +1,6 @@
+/* Reversible grading only: original PNG assets remain unchanged.
+   Add ?grade=original to compare the ungraded scene. */
+:root{--scene-saturation:.78;--scene-brightness:.90;--scene-contrast:.96;--shadow-tint:#58675e;--shadow-tint-opacity:.10;--detail-saturation:.86;--detail-brightness:.96}
+html:not([data-grade="original"]) #stage{filter:saturate(var(--scene-saturation)) brightness(var(--scene-brightness)) contrast(var(--scene-contrast))}
+html:not([data-grade="original"]) #stage::after{content:'';position:absolute;inset:0;pointer-events:none;background:var(--shadow-tint);opacity:var(--shadow-tint-opacity);mix-blend-mode:multiply}
+html:not([data-grade="original"]) #inspection{filter:saturate(var(--detail-saturation)) brightness(var(--detail-brightness))}
