@@ -32,3 +32,4 @@ html[lang=zh-Hans] #visitorSpeech{text-wrap:balance}
 
 /* Bottom subtitles sit on the visitor window's axis (set by subtitle-axis.js). */
 #clerkSpeech{left:var(--dialogue-axis,50%);max-width:min(1050px,calc(2*min(var(--dialogue-axis,50vw),100vw - var(--dialogue-axis,50vw)) - 24px))}
+#introChoices{left:var(--dialogue-axis,50%);display:grid;grid-template-columns:1fr 1fr;justify-items:center}
