@@ -126,5 +126,3 @@ body[data-story-phase^="idle-"] #visitorSpeech::after{display:none}
 @media(prefers-reduced-motion:reduce){#teaLiquid{transition:none}}
 
 #deskDrink img[hidden],#teaSurface[hidden]{display:none}
-/* Supervisor dialogue may occupy the clock area during the opening/tutorial. */
-#storyLayer:not(.inInspection) #visitorSpeech[data-speaker=boss]{top:16%}
